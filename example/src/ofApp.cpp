@@ -2,8 +2,12 @@
 
 //--------------------------------------------------------------
 void ofApp::setup() {
-	// source movie
-	_mov.initGrabber(640, 360);
+	// source image
+	if (!testImg.load("testcard.png"))
+	{
+		ofLogError("ofApp::setup") << "Could not load image!";
+		return;
+	}
 
 	first_fbo.allocate(1920, 1080);
 	second_fbo.allocate(1920, 1080);
@@ -21,8 +25,6 @@ void ofApp::setup() {
 
 //--------------------------------------------------------------
 void ofApp::update() {
-	// movie update
-	_mov.update();
 }
 
 //--------------------------------------------------------------
@@ -31,19 +33,19 @@ void ofApp::draw() {
 
 	// update fbo //////////////////////
 	first_fbo.begin();
-	_mov.draw(0, 0, 1920, 1080);
+	testImg.draw(0, 0, 1920, 1080);
 	first_fbo.end();
 
 	second_fbo.begin();
-	_mov.draw(0, 0, 1920, 1080);
+	testImg.draw(0, 0, 1920, 1080);
 	second_fbo.end();
 
 	third_fbo.begin();
-	_mov.draw(0, 0, 1920, 1080);
+	testImg.draw(0, 0, 1920, 1080);
 	third_fbo.end();
 
 	fourth_fbo.begin();
-	_mov.draw(0, 0, 1920, 1080);
+	testImg.draw(0, 0, 1920, 1080);
 	fourth_fbo.end();
 	/////////////////////////////////////
 

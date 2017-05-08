@@ -59,12 +59,13 @@ void ofxBezierWarpManager::mousePressed(int x, int y, int button){
 }
 
 //--------------------------------------------------------------
-void ofxBezierWarpManager::addFbo(ofFbo* _fbo){
+ofxBezierWarp& ofxBezierWarpManager::addFbo(ofFbo* _fbo){
     cout << "[ofxBezierWarpManager] addFbo(ofFbo* _fbo)" << endl;
-    ofxBezierWarp _bezier;
-    _bezier.setup(_fbo);
-    _bezier.setWarpResolution(warpResolution);
-    bezierList.push_back(_bezier);
+    shared_ptr<ofxBezierWarp> _bezier(new ofxBezierWarp());
+    _bezier->setup(_fbo);
+    _bezier->setWarpResolution(warpResolution);
+	bezierList.push_back(*_bezier);
+	return *_bezier;
 }
 
 //--------------------------------------------------------------
@@ -87,7 +88,7 @@ void ofxBezierWarpManager::saveSettings(){
     for (int m = 0; m < bezierList.size(); m++) {
         lastTagNumber = _xml.addTag("SCREEN");
         _xml.setValue("SCREEN:IS_BEZIER", (int)bezierList[m].anchorControl, lastTagNumber);
-        _xml.setValue("SCREEN:RESOLUTION", (int)bezierList[m].prev_gridRes, lastTagNumber);
+        _xml.setValue("SCREEN:RESOLUTION", (int)bezierList[m].getGridRes(), lastTagNumber);
         if( _xml.pushTag("SCREEN", lastTagNumber) ){
             for (int c = 0; c < 4; c++) {
                 int tagNum = _xml.addTag("CORNER");
@@ -130,10 +131,9 @@ void ofxBezierWarpManager::loadSettings(){
         ofLog(OF_LOG_NOTICE," SCREEN:" + ofToString(m));
         
         bezierList[m].anchorControl = _xml.getValue("IS_BEZIER", 0);
-        bezierList[m].gridRes = _xml.getValue("RESOLUTION", 10);
-        bezierList[m].prev_gridRes = bezierList[m].gridRes;
+		bezierList[m].setGridRes(_xml.getValue("RESOLUTION", 10));
         ofLog(OF_LOG_NOTICE," IS_BEZIER:" + ofToString(bezierList[m].anchorControl));
-        ofLog(OF_LOG_NOTICE," RESOLUTION:" + ofToString(bezierList[m].prev_gridRes));
+        ofLog(OF_LOG_NOTICE," RESOLUTION:" + ofToString(bezierList[m].getGridRes()));
 		int numCornerTags = _xml.getNumTags("CORNER");
 		for(int i = 0; i < numCornerTags; i++){
 			int x = _xml.getValue("CORNER:X", 0, i);

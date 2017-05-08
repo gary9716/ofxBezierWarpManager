@@ -32,12 +32,21 @@ void ofxBezierWarp::setup(int _width, int _height, int grid, int _layer) {
 	mouseON = 1;
 	spritesON = 1;
     anchorControl = 0;
-    gridRes = grid;
-    prev_gridRes = gridRes;
+	setGridRes(grid);
 	rad = 10;
     showGrid = false;
     
 	defaults();
+}
+
+void ofxBezierWarp::allocateBzPts() {
+	if (allocatedGridRes == gridRes)
+		return;
+	bezSurfPoints.resize(gridRes + 1);
+	for (int i = 0; i < gridRes + 1; i++) {
+		bezSurfPoints[i].resize(gridRes + 1);
+	}
+	allocatedGridRes = gridRes;
 }
 
 // resets control points to default position
@@ -108,12 +117,8 @@ void ofxBezierWarp::draw() {
 }
 
 void ofxBezierWarp::draw(ofTexture tex) {
-
-    ofPoint ** bezSurfPoints = new ofPoint*[gridRes+1];
-    for( int i=0; i<gridRes+1; i++ ) {
-        bezSurfPoints[i] = new ofPoint[gridRes+1];
-    }
-	
+	allocateBzPts();
+    
 	for(int i = 0; i <= gridRes; i++) {
 		for(int j = 0; j <= gridRes; j++) {
 			float start_x = bezierPoint(corners[0].x, anchors[0].x, anchors[7].x, corners[3].x, (float)j/gridRes);
@@ -148,12 +153,9 @@ void ofxBezierWarp::draw(ofTexture tex) {
 			tex.unbind();
 		}
 	}
+	
 	sprites();
-    
-    for( int i=0; i<gridRes+1; i++ ) {
-        delete[] bezSurfPoints[i];
-    }
-    delete[] bezSurfPoints;
+	
 }
 
 
@@ -410,13 +412,6 @@ void ofxBezierWarp::mousePressed(int x, int y, int button) {
                 }
             }
         }
-        /*
-        if(anchorControl == 0){
-            gridRes = 1;
-        }else{
-            gridRes = prev_gridRes;
-        }
-         */
     }
 }
 
@@ -446,7 +441,7 @@ void ofxBezierWarp::keyPressed(int key) {
 	}
 }
 
-Boolean ofxBezierWarp::isSelected(){
+bool ofxBezierWarp::isSelected(){
     int _sum = 0;
     _sum += selectedCenter;
     for (int i=0; i<4; i++) {
@@ -470,8 +465,7 @@ void ofxBezierWarp::setCanvasSize(int _width, int _height){
 
 void ofxBezierWarp::setWarpResolution(int _res){
     if(_res > 0 && _res < 100){
-        gridRes = _res;
-        prev_gridRes = gridRes;
+		setGridRes(_res);
     }else{
         ofLogWarning("[ofxBezierWarp] setGridResolution : Resolution must be between 0 - 100.");
     }

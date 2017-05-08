@@ -31,6 +31,5 @@ class ofApp : public ofBaseApp{
 
 		bool showGuide;
 
-		// •`‰æ‚·‚é‰f‘œ‚Ì‘ã‚í‚è
-		ofVideoGrabber _mov;
+		ofImage testImg;
 };

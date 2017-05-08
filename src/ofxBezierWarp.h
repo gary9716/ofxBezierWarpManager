@@ -21,8 +21,8 @@ public:
 	ofPoint corners[4];
 	ofPoint anchors[8];
     ofPoint center;
-	int gridRes;
-    int prev_gridRes;
+	
+    
     int mouseON, spritesON, anchorControl;
     int selectedSprite[4], selectedControlPoint[8], selectedCenter;
     bool showGrid;
@@ -37,32 +37,44 @@ public:
     void setup(ofFbo* _fbo);
 	void update(); // if you need
 	void draw();
-	
+	void draw(ofTexture texture);
+	void setGridRes(int gridRes) {
+		this->prev_gridRes = this->gridRes;
+		this->gridRes = gridRes;
+	}
+
+	int getGridRes() {
+		return gridRes;
+	}
+
     void resetAnchors();
 	void save();
 	void load();
 	void mousePressed(int x, int y, int button);
 	void mouseDragged(int x, int y, int button);
 	void keyPressed(int clef);
-    Boolean isSelected();
+    bool isSelected();
     
     void setCanvasSize(int _width, int _height);
     void setWarpResolution(int _res);
     void setGridVisible(bool _visible);
     bool bGradient;
-    
+	
 private:
 	int mousePosX, mousePosY, rad;
 	float width, height;
-    
+	int gridRes;
+	int prev_gridRes;
     void setup();
     void setup(int _width, int _height);
     void setup(int _width, int _height, int grid, int _layer);
-    void draw(ofTexture texture);
+    
     void defaults();
 	void sprites();
 	float bezierPoint(float x0, float x1, float x2, float x3, float t);
     void drawGrid(float _stepX, float _stepY);
     
-    
+	std::vector<std::vector<ofPoint>> bezSurfPoints;
+	void allocateBzPts();
+	int allocatedGridRes;
 };

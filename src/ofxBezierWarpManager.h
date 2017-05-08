@@ -5,6 +5,7 @@
  *	Manager of multiple Bezier Warp.
  *
  */
+#pragma once
 
 #include "ofMain.h"
 #include "ofxBezierWarp.h"
@@ -26,23 +27,23 @@ class ofxBezierWarpManager{
 		void mousePressed(int x, int y, int button);
 		void mouseReleased(int x, int y, int button);
     
-    void addFbo(ofFbo* _fbo);
-    void removeFbo();
-    void clear();
+		ofxBezierWarp& addFbo(ofFbo* _fbo);
+		void removeFbo();
+		void clear();
     
-    void saveSettings();
-    void loadSettings();
+		void saveSettings();
+		void loadSettings();
     
-    void setGuideVisible(bool _visible, int _bezierNum = -1);
-    void toggleGuideVisible(int _bezierNum = -1);
+		void setGuideVisible(bool _visible, int _bezierNum = -1);
+		void toggleGuideVisible(int _bezierNum = -1);
     
-    vector<ofxBezierWarp> bezierList;
-    vector<ofxBezierWarp> maskList;
+		vector<ofxBezierWarp> bezierList;
+		vector<ofxBezierWarp> maskList;
     
-    int warpResolution;
-    bool bBezierGuide;
-    bool bGradient;
-    ofImage gradientImg;
-    ofFbo gradientFbo;
-    ofFbo blackFbo;
+		int warpResolution;
+		bool bBezierGuide;
+		bool bGradient;
+		ofImage gradientImg;
+		ofFbo gradientFbo;
+		ofFbo blackFbo;
 };
