@@ -1,5 +1,11 @@
 # ofxBezierWarpManager
 
+Editor: KanTei
+
+change some API for multi windows purpose.
+
+--
+
 This addon is manager for multiple ofxBezierWarp.
 
 *This addon need ofxXmlSettings*
