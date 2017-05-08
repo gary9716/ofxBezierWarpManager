@@ -25,7 +25,6 @@ class ofxBezierWarpManager{
 		void keyReleased(int key);
 		void mouseDragged(int x, int y, int button);
 		void mousePressed(int x, int y, int button);
-		void mouseReleased(int x, int y, int button);
     
 		ofxBezierWarp& addFbo(ofFbo* _fbo);
 		void removeFbo();
@@ -38,7 +37,7 @@ class ofxBezierWarpManager{
 		void toggleGuideVisible(int _bezierNum = -1);
     
 		vector<ofxBezierWarp> bezierList;
-		vector<ofxBezierWarp> maskList;
+		//vector<ofxBezierWarp> maskList;
     
 		int warpResolution;
 		bool bBezierGuide;

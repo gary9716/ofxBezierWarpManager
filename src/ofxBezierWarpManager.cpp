@@ -61,11 +61,11 @@ void ofxBezierWarpManager::mousePressed(int x, int y, int button){
 //--------------------------------------------------------------
 ofxBezierWarp& ofxBezierWarpManager::addFbo(ofFbo* _fbo){
     cout << "[ofxBezierWarpManager] addFbo(ofFbo* _fbo)" << endl;
-    shared_ptr<ofxBezierWarp> _bezier(new ofxBezierWarp());
-    _bezier->setup(_fbo);
-    _bezier->setWarpResolution(warpResolution);
-	bezierList.push_back(*_bezier);
-	return *_bezier;
+    ofxBezierWarp _bezier;
+    _bezier.setup(_fbo);
+    _bezier.setWarpResolution(warpResolution);
+	bezierList.push_back(_bezier);
+	return bezierList.back();
 }
 
 //--------------------------------------------------------------
@@ -76,7 +76,7 @@ void ofxBezierWarpManager::removeFbo(){
 //--------------------------------------------------------------
 void ofxBezierWarpManager::clear(){
     bezierList.clear();
-    maskList.clear();
+    //maskList.clear();
 }
 
 //--------------------------------------------------------------
