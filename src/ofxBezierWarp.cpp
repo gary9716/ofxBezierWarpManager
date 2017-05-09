@@ -13,8 +13,9 @@ void ofxBezierWarp::setup() {
     setup(800, 600, 10, 0);
 }
 
-void ofxBezierWarp::setup(ofFbo* _fbo) {
-    fbo = _fbo;
+void ofxBezierWarp::setup(ofFbo* _fbo, bool defaultNoRand) {
+	this->defaultNoRand = defaultNoRand;
+	fbo = _fbo;
     setup(fbo->getWidth(), fbo->getHeight(), 10, 0);
 }
 
@@ -59,8 +60,9 @@ void ofxBezierWarp::defaults() {
 		selectedControlPoint[i] = 0;
 	}
     
-    float rnd_x = ofRandom(0.1, 0.6);
-    float rnd_y = ofRandom(0.1, 0.6);
+	float rnd_x = defaultNoRand? 0 : ofRandom(0.1, 0.6);
+    float rnd_y = defaultNoRand? 0 : ofRandom(0.1, 0.6);
+
 	// top left first then clockwise
 	corners[0] = ofPoint(width * (0.0 + rnd_x), height * (0.0 + rnd_y));
 	corners[1] = ofPoint(width * (0.3 + rnd_x), height * (0.0 + rnd_y));
@@ -101,22 +103,23 @@ void ofxBezierWarp::update() {
 }
 
 void ofxBezierWarp::draw() {
-    if(spritesON == 1){
+	// when fbo is null
+	if (!fbo || !fbo->checkStatus()) return;
+
+	if(spritesON == 1){
         ofPushStyle();
         fbo->begin();
         drawGrid(gridRes, gridRes);
         fbo->end();
         ofPopStyle();
     }
-    
-    // when fbo is null
-    if(!fbo) return;
-    
+	
     // draw bezier
     draw(fbo->getTextureReference());
+	
 }
 
-void ofxBezierWarp::draw(ofTexture tex) {
+void ofxBezierWarp::draw(ofTexture& tex) {
 	allocateBzPts();
     
 	for(int i = 0; i <= gridRes; i++) {

@@ -59,10 +59,10 @@ void ofxBezierWarpManager::mousePressed(int x, int y, int button){
 }
 
 //--------------------------------------------------------------
-ofxBezierWarp& ofxBezierWarpManager::addFbo(ofFbo* _fbo){
+ofxBezierWarp& ofxBezierWarpManager::addFbo(ofFbo* _fbo, bool defaultNoRand){
     cout << "[ofxBezierWarpManager] addFbo(ofFbo* _fbo)" << endl;
     ofxBezierWarp _bezier;
-    _bezier.setup(_fbo);
+    _bezier.setup(_fbo, defaultNoRand);
     _bezier.setWarpResolution(warpResolution);
 	bezierList.push_back(_bezier);
 	return bezierList.back();

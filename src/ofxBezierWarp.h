@@ -34,10 +34,10 @@ public:
 		prev_gridRes = 0;
 	}
 	
-    void setup(ofFbo* _fbo);
+    void setup(ofFbo* _fbo, bool defaultNoRand);
 	void update(); // if you need
 	void draw();
-	void draw(ofTexture texture);
+	void draw(ofTexture& texture);
 	void setGridRes(int gridRes) {
 		this->prev_gridRes = this->gridRes;
 		this->gridRes = gridRes;
@@ -59,7 +59,7 @@ public:
     void setWarpResolution(int _res);
     void setGridVisible(bool _visible);
     bool bGradient;
-	
+	bool defaultNoRand;
 private:
 	int mousePosX, mousePosY, rad;
 	float width, height;
