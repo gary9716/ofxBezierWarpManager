@@ -81,7 +81,8 @@ void ofxBezierWarpManager::clear(){
 
 //--------------------------------------------------------------
 void ofxBezierWarpManager::saveSettings(){
-    //screen settings
+	cout << "save warp settings" << endl;
+	//screen settings
     ofxXmlSettings _xml = ofxXmlSettings();
 	int lastTagNumber;
     // screen
@@ -110,7 +111,6 @@ void ofxBezierWarpManager::saveSettings(){
 //--------------------------------------------------------------
 void ofxBezierWarpManager::loadSettings(){
     ofxXmlSettings _xml;
-    
 	if( _xml.loadFile("BezierWarpManager_settings.xml") ){
 		cout << "[BezierWarpManager_settings.xml] loaded!" << endl;
 	}else{
