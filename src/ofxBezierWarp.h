@@ -21,6 +21,7 @@ public:
 	ofPoint corners[4];
 	ofPoint anchors[8];
     ofPoint center;
+	float cornerOffset = 0;
 	
     
     int mouseON, spritesON, anchorControl;
@@ -34,7 +35,7 @@ public:
 		prev_gridRes = 0;
 	}
 	
-    void setup(ofFbo* _fbo, bool defaultNoRand);
+    void setup(ofFbo* _fbo, bool defaultNoRand, float cornerOffset);
 	void update(); // if you need
 	void draw();
 	void draw(ofTexture& texture);

@@ -26,7 +26,7 @@ class ofxBezierWarpManager{
 		void mouseDragged(int x, int y, int button);
 		void mousePressed(int x, int y, int button);
     
-		ofxBezierWarp& addFbo(ofFbo* _fbo, bool defaultNoRand);
+		ofxBezierWarp& addFbo(ofFbo* _fbo, bool defaultNoRand, float cornerOffset);
 		void removeFbo();
 		void clear();
     
