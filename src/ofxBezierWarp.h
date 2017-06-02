@@ -27,7 +27,17 @@ public:
     int mouseON, spritesON, anchorControl;
     int selectedSprite[4], selectedControlPoint[8], selectedCenter;
     bool showGrid;
-		
+	
+	bool edgeMode = false;
+	int selectedEdge = 0;
+
+	int edgeCornerIndices[4][2] = {
+		{0,3},
+		{0,1},
+		{1,2},
+		{2,3}
+	};
+
 	ofxBezierWarp() {
 		no = 0;
 		layer = 0;
@@ -39,6 +49,7 @@ public:
 	void update(); // if you need
 	void draw();
 	void draw(ofTexture& texture);
+	void defaults();
 	void setGridRes(int gridRes) {
 		this->prev_gridRes = this->gridRes;
 		this->gridRes = gridRes;
@@ -70,7 +81,6 @@ private:
     void setup(int _width, int _height);
     void setup(int _width, int _height, int grid, int _layer);
     
-    void defaults();
 	void sprites();
 	float bezierPoint(float x0, float x1, float x2, float x3, float t);
     void drawGrid(float _stepX, float _stepY);

@@ -35,7 +35,7 @@ void ofxBezierWarp::setup(int _width, int _height, int grid, int _layer) {
 	spritesON = 1;
     anchorControl = 0;
 	setGridRes(grid);
-	rad = 10;
+	rad = 20;
     showGrid = false;
     
 	defaults();
@@ -442,20 +442,69 @@ void ofxBezierWarp::mouseDragged(int x, int y, int button) {
 
 //handles keyboard events
 void ofxBezierWarp::keyPressed(int key) {
-	switch(key) {
-        case OF_KEY_LEFT:
-            mousePosX--;
-            break;
-        case OF_KEY_RIGHT:
-            mousePosX++;
-            break;
-        case OF_KEY_UP:
-            mousePosY--;
-            break;
-        case OF_KEY_DOWN:
-            mousePosY++;
-            break;
+	if (edgeMode && !anchorControl) {
+		if (selectedEdge < 0 || selectedEdge > 3) {
+			cout << "edge index out of bound" << endl;
+			return;
+		}
+
+		switch (key) {
+			case OF_KEY_LEFT:
+			case OF_KEY_DOWN:
+				if (selectedEdge == 0 || selectedEdge == 2) {
+					corners[edgeCornerIndices[selectedEdge][0]].x--;
+					corners[edgeCornerIndices[selectedEdge][1]].x--;
+				}
+				else if (selectedEdge == 1 || selectedEdge == 3) {
+					corners[edgeCornerIndices[selectedEdge][0]].y--;
+					corners[edgeCornerIndices[selectedEdge][1]].y--;
+				}
+				break;
+			
+			case OF_KEY_RIGHT:
+			case OF_KEY_UP:
+				if (selectedEdge == 0 || selectedEdge == 2) {
+					corners[edgeCornerIndices[selectedEdge][0]].x++;
+					corners[edgeCornerIndices[selectedEdge][1]].x++;
+				}
+				else if (selectedEdge == 1 || selectedEdge == 3) {
+					corners[edgeCornerIndices[selectedEdge][0]].y++;
+					corners[edgeCornerIndices[selectedEdge][1]].y++;
+				}
+				break;
+			
+		}
+
+		int i = edgeCornerIndices[selectedEdge][0];
+		anchors[i * 2] = corners[i] + (corners[(i + 3) % 4] - corners[i]) / 3;
+		anchors[i * 2 + 1] = corners[i] + (corners[(i + 1) % 4] - corners[i]) / 3;
+		anchors[(i * 2 + 7) % 8] = corners[i] + (corners[(i + 3) % 4] - corners[i]) / 3 * 2;
+		anchors[(i * 2 + 2) % 8] = corners[i] + (corners[(i + 1) % 4] - corners[i]) / 3 * 2;
+		i = edgeCornerIndices[selectedEdge][1];
+		anchors[i * 2] = corners[i] + (corners[(i + 3) % 4] - corners[i]) / 3;
+		anchors[i * 2 + 1] = corners[i] + (corners[(i + 1) % 4] - corners[i]) / 3;
+		anchors[(i * 2 + 7) % 8] = corners[i] + (corners[(i + 3) % 4] - corners[i]) / 3 * 2;
+		anchors[(i * 2 + 2) % 8] = corners[i] + (corners[(i + 1) % 4] - corners[i]) / 3 * 2;
+
+
 	}
+	else {
+		switch (key) {
+			case OF_KEY_LEFT:
+				mousePosX--;
+				break;
+			case OF_KEY_RIGHT:
+				mousePosX++;
+				break;
+			case OF_KEY_UP:
+				mousePosY--;
+				break;
+			case OF_KEY_DOWN:
+				mousePosY++;
+				break;
+		}
+	}
+	
 }
 
 bool ofxBezierWarp::isSelected(){
