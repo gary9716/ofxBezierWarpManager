@@ -59,12 +59,17 @@ void ofxBezierWarpManager::mousePressed(int x, int y, int button){
 }
 
 //--------------------------------------------------------------
-ofxBezierWarp& ofxBezierWarpManager::addFbo(ofFbo* _fbo, bool warpInitPosRand, float cornerOffset){
-    cout << "[ofxBezierWarpManager] addFbo(ofFbo* _fbo)" << endl;
-    ofxBezierWarp _bezier;
-    _bezier.setup(_fbo, !warpInitPosRand, cornerOffset);
-    _bezier.setWarpResolution(warpResolution);
-	bezierList.push_back(_bezier);
+ofxBezierWarp& ofxBezierWarpManager::addFbo(ofFbo* _fbo, bool defaultNoRand, float cornerOffset){
+	return addFbo(_fbo, defaultNoRand, cornerOffset, cornerOffset);
+}
+
+ofxBezierWarp& ofxBezierWarpManager::addFbo(ofFbo * _fbo, bool defaultNoRand, float cornerOffsetX, float cornerOffsetY)
+{
+	cout << "[ofxBezierWarpManager] addFbo(ofFbo* _fbo)" << endl;
+	ofxBezierWarp* _bezier = new ofxBezierWarp();
+	_bezier->setup(_fbo, defaultNoRand, cornerOffsetX, cornerOffsetY);
+	_bezier->setWarpResolution(warpResolution);
+	bezierList.push_back(*_bezier);
 	return bezierList.back();
 }
 

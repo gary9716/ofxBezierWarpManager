@@ -15,9 +15,19 @@ void ofxBezierWarp::setup() {
 
 void ofxBezierWarp::setup(ofFbo* _fbo, bool defaultNoRand, float cornerOffset) {
 	this->defaultNoRand = defaultNoRand;
-	this->cornerOffset = cornerOffset;
+	this->cornerOffsetX = cornerOffset;
+	this->cornerOffsetY = cornerOffset;
 	fbo = _fbo;
     setup(fbo->getWidth(), fbo->getHeight(), 10, 0);
+}
+
+void ofxBezierWarp::setup(ofFbo * _fbo, bool defaultNoRand, float cornerOffsetX, float cornerOffsetY)
+{
+	this->defaultNoRand = defaultNoRand;
+	this->cornerOffsetX = cornerOffsetX;
+	this->cornerOffsetY = cornerOffsetY;
+	fbo = _fbo;
+	setup(fbo->getWidth(), fbo->getHeight(), 10, 0);
 }
 
 void ofxBezierWarp::setup(int _width, int _height) {
@@ -65,33 +75,13 @@ void ofxBezierWarp::defaults() {
     float rnd_y = defaultNoRand? 0 : ofRandom(0.1, 0.6);
 
 	// top left first then clockwise
-	corners[0] = ofPoint(width * (0.0 + cornerOffset + rnd_x), height * (0.0 + cornerOffset + rnd_y));
-	corners[1] = ofPoint(width * (1 - cornerOffset + rnd_x), height * (0.0 + cornerOffset + rnd_y));
-	corners[2] = ofPoint(width * (1 - cornerOffset + rnd_x), height * (1 - cornerOffset + rnd_y));
-	corners[3] = ofPoint(width * (0.0 + cornerOffset + rnd_x), height * (1 - cornerOffset + rnd_y));
+	corners[0] = ofPoint(width * (0.0 + cornerOffsetX + rnd_x), height * (0.0 + cornerOffsetY + rnd_y));
+	corners[1] = ofPoint(width * (1 - cornerOffsetX + rnd_x), height * (0.0 + cornerOffsetY + rnd_y));
+	corners[2] = ofPoint(width * (1 - cornerOffsetX + rnd_x), height * (1 - cornerOffsetY + rnd_y));
+	corners[3] = ofPoint(width * (0.0 + cornerOffsetX + rnd_x), height * (1 - cornerOffsetY + rnd_y));
 	
-	const float commonFactor = 0.1f;
+	resetAnchors();
 
-	// top left first then clockwise
-	//related to corner_0
-	int anchorCornerIndex = 0;
-	anchors[0] = ofPoint(corners[anchorCornerIndex].x, corners[anchorCornerIndex].y + height * (commonFactor));
-	anchors[1] = ofPoint(corners[anchorCornerIndex].x + width * (commonFactor), corners[anchorCornerIndex].y);
-
-	//related to corner_1
-	anchorCornerIndex = 1;
-	anchors[2] = ofPoint(corners[anchorCornerIndex].x - width * (commonFactor), corners[anchorCornerIndex].y);
-	anchors[3] = ofPoint(corners[anchorCornerIndex].x, corners[anchorCornerIndex].y + height * (commonFactor));
-
-	//related to corner_2
-	anchorCornerIndex = 2;
-	anchors[4] = ofPoint(corners[anchorCornerIndex].x, corners[anchorCornerIndex].y - height * (commonFactor));
-	anchors[5] = ofPoint(corners[anchorCornerIndex].x - width * (commonFactor), corners[anchorCornerIndex].y);
-
-	//related to corner_3
-	anchorCornerIndex = 3;
-	anchors[6] = ofPoint(corners[anchorCornerIndex].x + width * (commonFactor), corners[anchorCornerIndex].y);
-	anchors[7] = ofPoint(corners[anchorCornerIndex].x, corners[anchorCornerIndex].y - height * (commonFactor));
 }
 
 void ofxBezierWarp::resetAnchors(){

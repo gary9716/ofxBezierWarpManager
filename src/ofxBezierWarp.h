@@ -21,8 +21,9 @@ public:
 	ofPoint corners[4];
 	ofPoint anchors[8];
     ofPoint center;
-	float cornerOffset = 0;
-	
+	float cornerOffsetX = 0;
+	float cornerOffsetY = 0;
+
     
     int mouseON, spritesON, anchorControl;
     int selectedSprite[4], selectedControlPoint[8], selectedCenter;
@@ -46,6 +47,7 @@ public:
 	}
 	
     void setup(ofFbo* _fbo, bool defaultNoRand, float cornerOffset);
+	void setup(ofFbo* _fbo, bool defaultNoRand, float cornerOffsetX, float cornerOffsetY);
 	void update(); // if you need
 	void draw();
 	void draw(ofTexture& texture);
